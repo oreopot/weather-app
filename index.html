@@ -11,7 +11,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
     crossorigin="anonymous"></script>
-  <script defer src="index.js"></script>
+  <script defer type="module" src="index.js"></script>
   <style>
     body {
       background-image: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
@@ -26,7 +26,7 @@
         <p class="h1 mb-3 text-white">What's the Weather</p>
         <div class=" input-group input-group-lg">
           <label class="input-group-text">In</label>
-          <input id="city-input" class="form-control" type="text" placeholder="Sydney">
+          <input id="city-input" class="form-control" type="text" value="Melbourne, AU" placeholder="Sydney">
           <button id="goBtn" class="btn btn-warning">Go!</button>
 
         </div>
@@ -35,19 +35,24 @@
     <div class="row mt-3 justify-content-center">
       <div id="weather-container" class="col-md-8 col-lg-6 card-deck">
 
-        <div class="text-center card">
-          <div class="row no-gutters ">
-            <div class="col-md-5">
-              <img src="images/undraw_sunlight_tn7t.png" class="card-img mt-4" alt="...">
-            </div>
-            <div class="col-md-7 card-body mt-5">
-              <h5 class="card-title">Melbourne, Australia</h5>
-              <p class="card-text">The temperature is 32°C, and it feels like 34.2°C</p>
-              <p class="card-text">The weather is: Sunny</p>
+        <!-- 
+
+          <div class="text-center card">
+            <div class="row no-gutters ">
+              <div class="col-md-5">
+                <img src="images/undraw_sunlight_tn7t.png" class="card-img mt-4" alt="...">
+              </div>
+              <div class="col-md-7 card-body mt-5">
+                <h5 class="card-title">Melbourne, Australia</h5>
+                <p class="card-text">The temperature is 32°C, and it feels like 34.2°C</p>
+                <p class="card-text">The weather is: Sunny</p>
+              </div>
             </div>
           </div>
-        </div>
+          
+        -->
 
+        <!-- 
         <div class="card bg-light mt-3 mb-3">
           <div class="card-body">
             <h2 class="card-title text-danger">Oops!</h3>
@@ -56,7 +61,7 @@
           </div>
           <img src="./images/undraw_warning_cyit.png" class="card-img" alt="...">
         </div>
-
+        -->
       </div>
     </div>
   </div>
