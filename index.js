@@ -32,7 +32,7 @@ const getWeatherImage = (description) => {
   return img;
 };
 
-const errorCardHtml = (errorMsg, errorCode) => {
+const errorCardHtml = ({ message: errorMsg, cod: errorCode }) => {
   const str = `<div class="card bg-light mt-3 mb-3">
       <div class="card-body">
         <h2 class="card-title text-danger">Oops!</h3>
@@ -68,17 +68,12 @@ const createWeatherCard = async () => {
   const data = await getWeatherData(cityName);
   let htmlString = '';
   if (data.cod === 200) {
-    const { temp } = data.main;
-    const feelsLikeTemp = data.main.feels_like;
-    const weatherDesc = data.weather[0].description;
-    const weatherIcon = data.weather[0].icon;
-
+    const { temp, feels_like: feelsLikeTemp } = data.main;
+    const { description: weatherDesc, icon: weatherIcon } = data.weather[0];
     htmlString = createCardHtml(cityName, temp, feelsLikeTemp, weatherDesc, weatherIcon);
   } else {
-    // process error
-    const errorMsg = data.message;
-    const errorCode = data.cod;
-    htmlString = errorCardHtml(errorMsg, errorCode);
+    // const { message: errorMsg, cod: errorCode } = data;
+    htmlString = errorCardHtml({ ...data });
   }
   displayContainer.innerHTML = htmlString;
 };
