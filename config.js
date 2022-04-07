@@ -1,4 +1,4 @@
-const APP_ID = '34e72986685b32cf30c24328191001e7';
+const APP_ID = 'YOUR API KEY';
 
 const WEATHER_ICONS = {
   '01d': '☀️',
