@@ -7,6 +7,7 @@ import { APP_ID, WEATHER_ICONS } from './config.js';
 const city = document.getElementById('city-input');
 const searchBtn = document.getElementById('goBtn');
 const displayContainer = document.getElementById('weather-container');
+const getUserLocationBtn = document.getElementById('myWeather');
 
 const getWeatherData = async (cityName) => {
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${APP_ID}&units=metric`;
@@ -32,13 +33,13 @@ const getWeatherImage = (description) => {
   return img;
 };
 
-const errorCardHtml = ({ message: errorMsg, cod: errorCode }) => {
+const errorCardHtml = ({ message, cod }) => {
   const str = `<div class="card bg-light mt-3 mb-3">
       <div class="card-body">
         <h2 class="card-title text-danger">Oops!</h3>
           <h4 class="card-text">We ran into some error...</h4>
-          <p class="card-text text-muted">Error code: ${errorCode}</p>
-          <p class="card-text text-muted">Error Message: ${errorMsg}</p>
+          <p class="card-text text-muted">Error code: ${cod}</p>
+          <p class="card-text text-muted">Error Message: ${message}</p>
       </div>
       <img src="./images/undraw_warning_cyit.png" class="card-img" alt="...">
     </div>`;
@@ -66,13 +67,22 @@ const createCardHtml = (cityName, temp, feelsLikeTemp, weatherDesc, weatherIcon)
 const createWeatherCard = async () => {
   const cityName = city.value;
   const data = await getWeatherData(cityName);
+  console.log(data);
   let htmlString = '';
   if (data.cod === 200) {
+    // const { temp } = data.main;
+    // const feelsLikeTemp = data.main.feels_like;
+    // const weatherDesc = data.weather[0].description;
+    // const weatherIcon = data.weather[0].icon;
+
     const { temp, feels_like: feelsLikeTemp } = data.main;
     const { description: weatherDesc, icon: weatherIcon } = data.weather[0];
+
     htmlString = createCardHtml(cityName, temp, feelsLikeTemp, weatherDesc, weatherIcon);
   } else {
-    // const { message: errorMsg, cod: errorCode } = data;
+    // const {message, cod} = data
+    // htmlString = errorCardHtml(message, cod);
+
     htmlString = errorCardHtml({ ...data });
   }
   displayContainer.innerHTML = htmlString;
@@ -83,3 +93,53 @@ searchBtn.addEventListener('click', async (event) => {
   await createWeatherCard();
   // console.log( );
 });
+
+city.addEventListener('keypress', async (e) => {
+  if (e.key === 'Enter') {
+    await createWeatherCard();
+  }
+});
+
+const fetchWeatherByCoord = async ({ latitude, longitude }) => {
+  const url = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${APP_ID}&units=metric`;
+
+  try {
+    const resp = await fetch(url);
+    const data = await resp.json();
+    return data;
+  } catch (error) {
+    console.log('handle error in catch block!');
+  }
+};
+
+const getWeatherByCoordinates = async () => {
+  async function success(position) {
+    const data = await fetchWeatherByCoord(position.coords);
+
+    let htmlString = '';
+    if (data.cod === 200) {
+      const cityName = `${data.name}, ${data.sys.country}`;
+      city.value = cityName;
+      const { temp, feels_like: feelsLikeTemp } = data.main;
+      const { description: weatherDesc, icon: weatherIcon } = data.weather[0];
+
+      htmlString = createCardHtml(cityName, temp, feelsLikeTemp, weatherDesc, weatherIcon);
+    } else {
+      htmlString = errorCardHtml({ ...data });
+    }
+    displayContainer.innerHTML = htmlString;
+  }
+
+  function error() {
+    console.error('ran into error geolocating!');
+  }
+
+  if (!navigator.geolocation) {
+    console.log('Geolocation is not supported by your browser');
+  } else {
+    console.log('Locating…');
+    navigator.geolocation.getCurrentPosition(success, error);
+  }
+};
+
+getUserLocationBtn.addEventListener('click', getWeatherByCoordinates);
