@@ -1,4 +1,4 @@
-const APP_ID = 'YOUR API KEY';
+const APP_ID = ${{ secrets.API_KEY }};
 
 const WEATHER_ICONS = {
   '01d': '☀️',
