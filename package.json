@@ -5,6 +5,6 @@
     "eslint-plugin-import": "^2.25.4"
   },
   "scripts": {
-    "build": "echo 'Hello'"
+    "build": "echo 'Hello' "
   }
 }
