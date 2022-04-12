@@ -1,4 +1,6 @@
-const APP_ID = '${{API_KEY}}';
+const APP_ID = {{API_KEY}};
+
+console.log(APP_ID);
 
 const WEATHER_ICONS = {
   '01d': '☀️',
