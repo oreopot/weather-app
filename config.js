@@ -1,4 +1,4 @@
-const APP_ID = ${{ secrets.API_KEY }};
+const APP_ID = `${process.env.API_KEY}`;
 
 const WEATHER_ICONS = {
   '01d': '☀️',
