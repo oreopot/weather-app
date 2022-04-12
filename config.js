@@ -1,6 +1,7 @@
-const APP_ID = {{API_KEY}};
+const APP_ID = process.env.API_KEY;
 
 console.log(APP_ID);
+console.log(process.env);
 
 const WEATHER_ICONS = {
   '01d': '☀️',
